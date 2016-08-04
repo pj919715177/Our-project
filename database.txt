@@ -1,0 +1,56 @@
+CREATE DATABASE phpfun_news CHARACTER SET UTF8; #创建数据库
+
+CREATE TABLE `news`( 
+`id` int(11) unsigned NOT NULL AUTO_INCREMENT, 
+`title` varchar(100) NOT NULL DEFAULT '' COMMENT '新闻标题',  
+`content` text NOT NULL COMMENT '新闻正文',  
+`digest` varchar(255) NOT NULL DEFAULT '' COMMENT '新闻摘要',  
+`uploadTime` int(11) unsigned NOT NULL COMMENT '上传时间',  
+`uploadManagerId` int(11) unsigned NOT NULL COMMENT '上传人id',  
+`updateTime` int(11) unsigned NOT NULL COMMENT '更新时 间',  
+`updateManagerId` int(11) unsigned NOT NULL COMMENT '修改人id',  
+`supportCount` int(4) unsigned NOT NULL DEFAULT 0 COMMENT '点赞数',  
+`isOnline` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0:未上线,1:已上线',  
+PRIMARY KEY(`id`) 
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='新闻表';
+
+CREATE TABLE `user`(
+`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+`name` varchar(50) NOT NULL COMMENT '用户名',
+`password` char(32) NOT NULL COMMENT '用户密码',
+`email` varchar(50) NOT NULL COMMENT '用户邮箱',
+`isOnline` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0:未在线,1:已在线',
+PRIMARY KEY(`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+CREATE TABLE `comment`(
+`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+`userId` int(11) unsigned NOT NULL COMMENT '评论用户id',
+`newsId` int(11) unsigned NOT NULL COMMENT '评论新闻id',
+`content` varchar(255) NOT NULL DEFAULT ''  COMMENT '评论内容',
+`commentTime` int(11) unsigned NOT NULL COMMENT '评论时间',
+`supportCount` int(4) unsigned NOT NULL DEFAULT 0 COMMENT '点赞数',
+PRIMARY KEY(`id`),
+FOREIGN KEY(`userId`) REFERENCES `user`(`id`),
+FOREIGN KEY(`newsId`) REFERENCES `news`(`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评论表';
+
+CREATE TABLE `collection`(
+`userId` int(11) unsigned NOT NULL COMMENT '收藏用户id',
+`newsId` int(11) unsigned NOT NULL COMMENT '收藏新闻id',
+`collectTime` int(11) unsigned NOT NULL COMMENT '收藏时间',
+PRIMARY KEY(`userId`,`newsId`),
+FOREIGN KEY(`userId`) REFERENCES `user`(`id`),
+FOREIGN KEY(`newsId`) REFERENCES `news`(`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='收藏表';
+
+CREATE TABLE `manager`(
+`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+`name` varchar(50) NOT NULL DEFAULT '' COMMENT '管理员账户名',
+`password` char(32) NOT NULL COMMENT '管理员账户密码',
+`email` varchar(50) NOT NULL COMMENT '管理员邮箱',
+`isManageUser` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0:无管理用户权限,1:有管 理用户权限',
+`isManageNews` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0:无管理新闻权限,1:有管 理新闻权限',
+`isManageComment` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0:无管理评论权限,1:有管理评论权限',
+PRIMARY KEY(`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='管理员表';
