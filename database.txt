@@ -1,56 +1,60 @@
-CREATE DATABASE phpfun_news CHARACTER SET UTF8; #´´½¨Êı¾İ¿â
-
-CREATE TABLE `news`( 
-`id` int(11) unsigned NOT NULL AUTO_INCREMENT, 
-`title` varchar(100) NOT NULL DEFAULT '' COMMENT 'ĞÂÎÅ±êÌâ',  
-`content` text NOT NULL COMMENT 'ĞÂÎÅÕıÎÄ',  
-`digest` varchar(255) NOT NULL DEFAULT '' COMMENT 'ĞÂÎÅÕªÒª',  
-`uploadTime` int(11) unsigned NOT NULL COMMENT 'ÉÏ´«Ê±¼ä',  
-`uploadManagerId` int(11) unsigned NOT NULL COMMENT 'ÉÏ´«ÈËid',  
-`updateTime` int(11) unsigned NOT NULL COMMENT '¸üĞÂÊ± ¼ä',  
-`updateManagerId` int(11) unsigned NOT NULL COMMENT 'ĞŞ¸ÄÈËid',  
-`supportCount` int(4) unsigned NOT NULL DEFAULT 0 COMMENT 'µãÔŞÊı',  
-`isOnline` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0:Î´ÉÏÏß,1:ÒÑÉÏÏß',  
-PRIMARY KEY(`id`) 
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ĞÂÎÅ±í';
-
-CREATE TABLE `user`(
-`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-`name` varchar(50) NOT NULL COMMENT 'ÓÃ»§Ãû',
-`password` char(32) NOT NULL COMMENT 'ÓÃ»§ÃÜÂë',
-`email` varchar(50) NOT NULL COMMENT 'ÓÃ»§ÓÊÏä',
-`isOnline` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0:Î´ÔÚÏß,1:ÒÑÔÚÏß',
-PRIMARY KEY(`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ÓÃ»§±í';
-
-CREATE TABLE `comment`(
-`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-`userId` int(11) unsigned NOT NULL COMMENT 'ÆÀÂÛÓÃ»§id',
-`newsId` int(11) unsigned NOT NULL COMMENT 'ÆÀÂÛĞÂÎÅid',
-`content` varchar(255) NOT NULL DEFAULT ''  COMMENT 'ÆÀÂÛÄÚÈİ',
-`commentTime` int(11) unsigned NOT NULL COMMENT 'ÆÀÂÛÊ±¼ä',
-`supportCount` int(4) unsigned NOT NULL DEFAULT 0 COMMENT 'µãÔŞÊı',
-PRIMARY KEY(`id`),
-FOREIGN KEY(`userId`) REFERENCES `user`(`id`),
-FOREIGN KEY(`newsId`) REFERENCES `news`(`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ÆÀÂÛ±í';
-
-CREATE TABLE `collection`(
-`userId` int(11) unsigned NOT NULL COMMENT 'ÊÕ²ØÓÃ»§id',
-`newsId` int(11) unsigned NOT NULL COMMENT 'ÊÕ²ØĞÂÎÅid',
-`collectTime` int(11) unsigned NOT NULL COMMENT 'ÊÕ²ØÊ±¼ä',
-PRIMARY KEY(`userId`,`newsId`),
-FOREIGN KEY(`userId`) REFERENCES `user`(`id`),
-FOREIGN KEY(`newsId`) REFERENCES `news`(`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ÊÕ²Ø±í';
+CREATE DATABASE phpfun_news CHARACTER SET UTF8; #åˆ›å»ºæ•°æ®åº“
 
 CREATE TABLE `manager`(
 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-`name` varchar(50) NOT NULL DEFAULT '' COMMENT '¹ÜÀíÔ±ÕË»§Ãû',
-`password` char(32) NOT NULL COMMENT '¹ÜÀíÔ±ÕË»§ÃÜÂë',
-`email` varchar(50) NOT NULL COMMENT '¹ÜÀíÔ±ÓÊÏä',
-`isManageUser` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0:ÎŞ¹ÜÀíÓÃ»§È¨ÏŞ,1:ÓĞ¹Ü ÀíÓÃ»§È¨ÏŞ',
-`isManageNews` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0:ÎŞ¹ÜÀíĞÂÎÅÈ¨ÏŞ,1:ÓĞ¹Ü ÀíĞÂÎÅÈ¨ÏŞ',
-`isManageComment` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0:ÎŞ¹ÜÀíÆÀÂÛÈ¨ÏŞ,1:ÓĞ¹ÜÀíÆÀÂÛÈ¨ÏŞ',
+`name` varchar(50) NOT NULL DEFAULT '' COMMENT 'ç®¡ç†å‘˜è´¦æˆ·å',
+`password` char(32) NOT NULL COMMENT 'ç®¡ç†å‘˜è´¦æˆ·å¯†ç ',
+`email` varchar(50) NOT NULL COMMENT 'ç®¡ç†å‘˜é‚®ç®±',
+`isManageUser` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0:æ— ç®¡ç†ç”¨æˆ·æƒé™,1:æœ‰ç®¡ ç†ç”¨æˆ·æƒé™',
+`isManageNews` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0:æ— ç®¡ç†æ–°é—»æƒé™,1:æœ‰ç®¡ ç†æ–°é—»æƒé™',
+`isManageComment` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0:æ— ç®¡ç†è¯„è®ºæƒé™,1:æœ‰ç®¡ç†è¯„è®ºæƒé™',
 PRIMARY KEY(`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='¹ÜÀíÔ±±í';
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ç®¡ç†å‘˜è¡¨';
+
+CREATE TABLE `news`( 
+`id` int(11) unsigned NOT NULL AUTO_INCREMENT, 
+`title` varchar(100) NOT NULL DEFAULT '' COMMENT 'æ–°é—»æ ‡é¢˜',  
+`content` text NOT NULL COMMENT 'æ–°é—»æ­£æ–‡',  
+`digest` varchar(255) NOT NULL DEFAULT '' COMMENT 'æ–°é—»æ‘˜è¦',  
+`uploadTime` int(11) unsigned NOT NULL COMMENT 'ä¸Šä¼ æ—¶é—´',  
+`uploadManagerId` int(11) unsigned NOT NULL COMMENT 'ä¸Šä¼ äººid',  
+`updateTime` int(11) unsigned NOT NULL COMMENT 'æ›´æ–°æ—¶ é—´',  
+`updateManagerId` int(11) unsigned NOT NULL COMMENT 'ä¿®æ”¹äººid',  
+`supportCount` int(4) unsigned NOT NULL DEFAULT 0 COMMENT 'ç‚¹èµæ•°',  
+`isOnline` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0:æœªä¸Šçº¿,1:å·²ä¸Šçº¿',  
+PRIMARY KEY(`id`) ,
+FOREIGN KEY(`uploadManagerId`) REFERENCES `manager`(`id`),
+FOREIGN KEY(`updateManagerId`) REFERENCES `manager`(`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='æ–°é—»è¡¨';
+
+CREATE TABLE `user`(
+`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+`name` varchar(50) NOT NULL COMMENT 'ç”¨æˆ·å',
+`password` char(32) NOT NULL COMMENT 'ç”¨æˆ·å¯†ç ',
+`email` varchar(50) NOT NULL COMMENT 'ç”¨æˆ·é‚®ç®±',
+`isOnline` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0:æœªåœ¨çº¿,1:å·²åœ¨çº¿',
+PRIMARY KEY(`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ç”¨æˆ·è¡¨';
+
+CREATE TABLE `comment`(
+`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+`userId` int(11) unsigned NOT NULL COMMENT 'è¯„è®ºç”¨æˆ·id',
+`newsId` int(11) unsigned NOT NULL COMMENT 'è¯„è®ºæ–°é—»id',
+`content` varchar(255) NOT NULL DEFAULT ''  COMMENT 'è¯„è®ºå†…å®¹',
+`commentTime` int(11) unsigned NOT NULL COMMENT 'è¯„è®ºæ—¶é—´',
+`supportCount` int(4) unsigned NOT NULL DEFAULT 0 COMMENT 'ç‚¹èµæ•°',
+PRIMARY KEY(`id`),
+FOREIGN KEY(`userId`) REFERENCES `user`(`id`),
+FOREIGN KEY(`newsId`) REFERENCES `news`(`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='è¯„è®ºè¡¨';
+
+CREATE TABLE `collection`(
+`userId` int(11) unsigned NOT NULL COMMENT 'æ”¶è—ç”¨æˆ·id',
+`newsId` int(11) unsigned NOT NULL COMMENT 'æ”¶è—æ–°é—»id',
+`collectTime` int(11) unsigned NOT NULL COMMENT 'æ”¶è—æ—¶é—´',
+PRIMARY KEY(`userId`,`newsId`),
+FOREIGN KEY(`userId`) REFERENCES `user`(`id`),
+FOREIGN KEY(`newsId`) REFERENCES `news`(`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='æ”¶è—è¡¨';
+
+
