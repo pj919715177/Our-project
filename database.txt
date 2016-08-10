@@ -1,4 +1,4 @@
-CREATE DATABASE phpfun_news CHARACTER SET UTF8; #创建数据库
+﻿CREATE DATABASE phpfun_news CHARACTER SET UTF8; #创建数据库
 
 CREATE TABLE `manager`(
 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -51,10 +51,13 @@ FOREIGN KEY(`newsId`) REFERENCES `news`(`id`)
 CREATE TABLE `collection`(
 `userId` int(11) unsigned NOT NULL COMMENT '收藏用户id',
 `newsId` int(11) unsigned NOT NULL COMMENT '收藏新闻id',
-`collectTime` int(11) unsigned NOT NULL COMMENT '收藏时间',
+`collectTime` int(11) unsigned NOT NULL COMMENT '收藏时间',	
 PRIMARY KEY(`userId`,`newsId`),
 FOREIGN KEY(`userId`) REFERENCES `user`(`id`),
 FOREIGN KEY(`newsId`) REFERENCES `news`(`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='收藏表';
+//插入数据库语句
+insert into user (name,password,email,isOnline) values ('lin',md5('123'),'123@qq.com',0);
+
 
 
